@@ -6,14 +6,15 @@ import {
     handleUpdateHotel,
     handleDeleteHotel,
 } from "../controllers/hotelController.js";
+import { verifyAdmin } from "../utils/authMiddleware.js";
 
 const router = express.Router();
 
 router
     .get('/', handleGetHotels)
     .get('/:id', handleGetHotel)
-    .post("/", handleCreateHotel)
-    .put("/:id", handleUpdateHotel)
-    .delete("/:id", handleDeleteHotel);
+    .post("/", verifyAdmin, handleCreateHotel)
+    .put("/:id", verifyAdmin, handleUpdateHotel)
+    .delete("/:id", verifyAdmin, handleDeleteHotel);
 
 export default router;

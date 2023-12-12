@@ -1,8 +1,9 @@
-import hotelModels from "../models/hotelModels.js";
+import hotelModel from "../models/hotelModel.js";
+import createError from "../utils/createError.js";
 
 const handleGetHotels = async (req, res, next) => {
     try {
-        const hotels = await hotelModels.find();
+        const hotels = await hotelModel.find();
         res.status(200).json({ hotels });
     } catch (error) {
         next(error);
@@ -13,7 +14,7 @@ const handleGetHotel = async (req, res, next) => {
     const hotelId = req.params.id;
 
     try {
-        const hotel = await hotelModels.findById(hotelId);
+        const hotel = await hotelModel.findById(hotelId);
         if (!hotel) {
             throw createError(404, "Hotel not found.");
         }
@@ -36,7 +37,7 @@ const handleCreateHotel = async (req, res, next) => {
     };
 
     try {
-        const newHotel = await hotelModels.create(hotelData);
+        const newHotel = await hotelModel.create(hotelData);
         res.status(201).json(newHotel);
     } catch (error) {
         next(error);
@@ -47,7 +48,7 @@ const handleUpdateHotel = async (req, res, next) => {
     const hotelId = req.params.id;
 
     try {
-        const updatedHotel = await hotelModels.findByIdAndUpdate(
+        const updatedHotel = await hotelModel.findByIdAndUpdate(
             hotelId,
             { $set: req.body },
             { new: true }
@@ -67,7 +68,7 @@ const handleDeleteHotel = async (req, res, next) => {
     const hotelId = req.params.id;
 
     try {
-        const deletedHotel = await hotelModels.findByIdAndDelete(hotelId);
+        const deletedHotel = await hotelModel.findByIdAndDelete(hotelId);
 
         if (!deletedHotel) {
             throw createError(
@@ -91,11 +92,4 @@ export {
     handleCreateHotel,
     handleUpdateHotel,
     handleDeleteHotel,
-};
-
-// Helper function to create error objects with status code and message
-const createError = (statusCode, message) => {
-    const error = new Error(message);
-    error.status = statusCode;
-    return error;
 };
