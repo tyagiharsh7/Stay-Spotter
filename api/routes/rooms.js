@@ -1,14 +1,20 @@
 import express from "express";
+import {
+    handleCreateRoom,
+    handleGetRooms,
+    handleGetRoom,
+    handleUpdateRoom,
+    handleDeleteRoom
+} from "../controllers/roomController.js";
+import { verifyAdmin } from "../utils/authMiddleware.js";
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    try {
-        res.status(200).send("Rooms Route Endpoint");
-    } catch (error) {
-        console.log(error);
-        res.status(500).send("Internal Server Error");
-    }
-})
+router
+    .get('/', handleGetRooms)
+    .get('/:id', handleGetRoom)
+    .post("/:hotelId", verifyAdmin, handleCreateRoom)
+    .put("/:id", verifyAdmin, handleUpdateRoom)
+    .delete("/:id", verifyAdmin, handleDeleteRoom);
 
 export default router;

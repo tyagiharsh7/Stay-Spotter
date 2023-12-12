@@ -1,4 +1,5 @@
 import hotelModel from "../models/hotelModel.js";
+import roomModel from "../models/roomModel.js";
 import createError from "../utils/createError.js";
 
 const handleGetHotels = async (req, res, next) => {
@@ -76,6 +77,9 @@ const handleDeleteHotel = async (req, res, next) => {
                 "Bad Request: Missing required parameter - ID."
             );
         }
+
+        // Delete corresponding rooms
+        await roomModel.deleteMany({ _id: { $in: deletedHotel.rooms } });
 
         res.status(200).json({
             success: true,
