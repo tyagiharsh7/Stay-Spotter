@@ -3,10 +3,10 @@ import StaySpotterLogo from "/images/StaySpotterLogo.png";
 
 const Navbar = () => {
     return (
-        <nav className="bg-white p-4">
+        <nav className="bg-gray-100 p-2">
             <div className="flex items-center justify-between mx-10">
                 <img src={StaySpotterLogo} alt="Logo" className="h-20 w-20" />
-                <ul className="flex space-x-4">
+                <ul className="flex space-x-4 text-xl">
                     <li>
                         <a
                             href="#"
