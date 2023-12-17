@@ -61,7 +61,7 @@ function FeaturedHotels() {
             <div className=" bg-white rounded-3xl p-10">
                 <div className="flex justify-around mb-10">
                     <h1 className="text-6xl mr-10 ml-4">
-                        Our top-rated and highly visited hotel
+                        Our top-rated and highly visited hotels
                     </h1>
                     <p className="mt-10">
                         Discover our handpicked selection of the year's finest
@@ -103,11 +103,11 @@ function FeaturedHotels() {
                         </div>
                     </div>
                     {/* Left Arrow */}
-                    <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+                    <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/50 text-white cursor-pointer">
                         <BsChevronCompactLeft onClick={prevHotel} size={30} />
                     </div>
                     {/* Right Arrow */}
-                    <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+                    <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/50 text-white cursor-pointer">
                         <BsChevronCompactRight onClick={nextHotel} size={30} />
                     </div>
                     <div className="flex top-4 justify-center py-2">

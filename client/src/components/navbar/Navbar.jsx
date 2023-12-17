@@ -1,12 +1,21 @@
 import React from "react";
 import StaySpotterLogo from "/images/StaySpotterLogo.png";
+import HotelSearch from "../hotelSearch/HotelSearch";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
+    const {includeSearch, initialData} = props;
+
+    const navigate = useNavigate();
+    const handleLogo = () => {
+        navigate('/');
+    }
+
     return (
-        <nav className="bg-gray-100 p-2">
-            <div className="flex items-center justify-between mx-10">
-                <img src={StaySpotterLogo} alt="Logo" className="h-20 w-20" />
-                <ul className="flex space-x-4 text-xl">
+        <nav className={`bg-gray-100 p-2 ${includeSearch ? 'border-b-2' : ''}`}>
+            <div className={`flex items-center justify-between mx-10`}>
+                <img src={StaySpotterLogo} alt="Logo" className="h-20 w-20" onClick={handleLogo}/>
+                {includeSearch ? <HotelSearch initialData={initialData}/>  : <ul className="flex space-x-4 text-xl">
                     <li>
                         <a
                             href="#"
@@ -39,7 +48,7 @@ const Navbar = () => {
                             More
                         </a>
                     </li>
-                </ul>
+                </ul>}
                 <button className="bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-700">
                     Sign Up
                 </button>

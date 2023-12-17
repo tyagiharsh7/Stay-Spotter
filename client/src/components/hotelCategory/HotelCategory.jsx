@@ -36,7 +36,7 @@ const categories = [
 const HotelCategorySelector = () => {
     return (
       <div className="p-8">
-        <div className="bg-gray-900 text-white rounded-3xl p-6 h-[730px]">
+        <div className="bg-gray-900 text-white rounded-3xl p-6 min-h-full">
           <h2 className="text-5xl text-center mb-12">
             Popular things to do <br /> by category
           </h2>
@@ -46,7 +46,7 @@ const HotelCategorySelector = () => {
                 <img
                   src={category.image}
                   alt={category.label}
-                  className="w-full rounded-xl h-[260px]"
+                  className="w-full rounded-xl h-[280px]"
                 />
                 <div className="overlay absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition duration-300 group-hover:opacity-100">
                   <p className="text-white text-center py-2">{category.label}</p>
