@@ -2,7 +2,7 @@ import React from 'react';
 
 const EmailSubscription = () => {
     return (
-        <div className="bg-gray-900 text-white p-8 pb-0 mt-4">
+        <div className="bg-gray-900 text-white p-8 pb-0">
             <h2 className="text-3xl mb-1 text-center">Save time, save money!</h2>
             <h2 className="text-xl mb-3 text-center">Subscribe to our newsletter</h2>
             <form className="flex justify-center space-y-4 space-x-4 w-full">

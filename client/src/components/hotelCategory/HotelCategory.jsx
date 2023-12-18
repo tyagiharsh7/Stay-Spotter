@@ -38,7 +38,7 @@ const HotelCategorySelector = () => {
       <div className="p-8">
         <div className="bg-gray-900 text-white rounded-3xl p-6 min-h-full">
           <h2 className="text-5xl text-center mb-12">
-            Popular things to do <br /> by category
+            Popular properties to book <br /> by category
           </h2>
           <div className="grid grid-cols-3 gap-4">
             {categories.map((category) => (

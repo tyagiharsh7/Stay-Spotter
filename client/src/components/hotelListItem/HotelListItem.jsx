@@ -61,7 +61,7 @@ const HotelListItem = ({
                     <div className="flex justify-between items-end p-2 px-4">
                         <p className="font-semibold text-3xl">{price}/ Night</p>
                         <button className=" text-black border-2 border-black px-4 py-2 rounded-full hover:bg-gray-700 hover:text-white">
-                            Book Now
+                            Know more
                         </button>
                     </div>
                 </div>
