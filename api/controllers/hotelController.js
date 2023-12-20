@@ -3,13 +3,26 @@ import roomModel from "../models/roomModel.js";
 import createError from "../utils/createError.js";
 
 const handleGetHotels = async (req, res, next) => {
+    const { featured, limit, min, max, ...othersParams } = req.query;
+
     try {
-        const hotels = await hotelModel.find();
+        const hotels = await hotelModel
+            .find({
+                ...othersParams,
+                featured: JSON.parse(featured),
+                cheapestPrice: {
+                    $gt: min || 1,
+                    $lt: max || 999,
+                },
+            })
+            .limit(parseInt(limit) || 5);
+
         res.status(200).json({ hotels });
     } catch (error) {
         next(error);
     }
 };
+
 
 const handleGetHotel = async (req, res, next) => {
     const hotelId = req.params.id;
@@ -26,19 +39,19 @@ const handleGetHotel = async (req, res, next) => {
 };
 
 const handleCreateHotel = async (req, res, next) => {
-    const hotelData = {
-        name: req.body.name,
-        type: req.body.type,
-        city: req.body.city,
-        address: req.body.address,
-        distance: req.body.distance,
-        title: req.body.title,
-        description: req.body.description,
-        cheapestPrice: req.body.cheapestPrice,
-    };
+    // const hotelData = {
+    //     name: req.body.name,
+    //     type: req.body.type,
+    //     city: req.body.city,
+    //     address: req.body.address,
+    //     distance: req.body.distance,
+    //     title: req.body.title,
+    //     description: req.body.description,
+    //     cheapestPrice: req.body.cheapestPrice,
+    // };
 
     try {
-        const newHotel = await hotelModel.create(hotelData);
+        const newHotel = await hotelModel.create(req.body);
         res.status(201).json(newHotel);
     } catch (error) {
         next(error);

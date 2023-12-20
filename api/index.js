@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import routes from "./routes/index.js";
 import errorHandler from "./utils/errorHandler.js";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const app = express();
 // Middleware
 app.use(cookieParser());
 app.use(express.json());
+app.use(cors())
 
 // Routes
 app.use('/api', routes);
