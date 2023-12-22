@@ -8,9 +8,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-
-const HotelSearch = (props) => {
-    const { initialData } = props;
+const HotelSearch = ({ initialData }) => {
     const [openBookingDateCalender, setOpenBookingDateCalender] =
         useState(false);
     const [openPeopleAndRoomSelection, setOpenPeopleAndRoomSelection] =

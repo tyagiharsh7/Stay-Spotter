@@ -1,104 +1,118 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import { useLocation } from "react-router-dom";
 import HotelListItem from "../../components/hotelListItem/HotelListItem";
 import EmailSubscription from "../../components/emailSubscription/EmailSubscription";
 import Footer from "../../components/footer/Footer";
 import { BsFilterSquare } from "react-icons/bs";
+import useFetch from "../../hooks/useFetch";
 
 const List = () => {
     const location = useLocation();
+    console.log('location: ', location);
 
-    const hotels = [
-        {
-            name: "Tower Street Villa",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Connought Place, Delhi",
-            price: "$100",
-            rating: 4.5,
-            reviews: 30,
-            description:
-                "Experience the epitome of hospitality at Tower Street Villa. Book your stay with us and create lasting memories in the heart of Delhi.",
-            type: "Villa",
-        },
-        {
-            name: "Sunset Beach Resort",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Malibu, California",
-            price: "$250",
-            rating: 4.8,
-            reviews: 120,
-            description:
-                "Unwind at our beachfront resort with breathtaking sunset views. Relax by the pool or take a stroll along the sandy shores.",
-            type: "Resort",
-        },
-        {
-            name: "Mountain View Lodge",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Aspen, Colorado",
-            price: "$180",
-            rating: 4.2,
-            reviews: 50,
-            description:
-                "Nestled in the Rockies, our lodge offers cozy rooms, stunning mountain vistas, and easy access to hiking trails.",
-            type: "Lodge",
-        },
-        {
-            name: "Urban Oasis Hotel",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "New York City, New York",
-            price: "$300",
-            rating: 4.7,
-            reviews: 90,
-            description:
-                "Discover tranquility in the heart of the city. Our rooftop garden and spa provide an oasis amidst the urban hustle.",
-            type: "Boutique Hotel",
-        },
-        {
-            name: "Historic Manor Inn",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Charleston, South Carolina",
-            price: "$220",
-            rating: 4.6,
-            reviews: 70,
-            description:
-                "Step back in time at our beautifully restored manor. Enjoy Southern hospitality and explore nearby historic sites.",
-            type: "Bed and Breakfast",
-        },
-        {
-            name: "Seaside Retreat",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Cape Cod, Massachusetts",
-            price: "$190",
-            rating: 4.4,
-            reviews: 40,
-            description:
-                "Wake up to ocean views and salty breezes. Our cozy cottages offer the perfect coastal escape.",
-            type: "Beachfront Cottage",
-        },
-        {
-            name: "Alpine Chalet",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Zermatt, Switzerland",
-            price: "$400",
-            rating: 4.9,
-            reviews: 150,
-            description:
-                "Experience Swiss luxury in our charming chalet. Ski-in, ski-out access and stunning Matterhorn views await.",
-            type: "Chalet",
-        },
-        {
-            name: "Tropical Paradise Resort",
-            image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
-            address: "Bali, Indonesia",
-            price: "$280",
-            rating: 4.5,
-            reviews: 100,
-            description:
-                "Immerse yourself in lush gardens, infinity pools, and beachfront bliss. Indulge in island life at our resort.",
-            type: "Resort",
-        },
-    ];
+    const { data, loading, error, reFetch } = useFetch(
+        `http://localhost:8800/api/hotel?city=${location.state.location}`
+    );
+
+    const [hotels, setHotels] = useState([]);
+
+    useEffect(() => {
+        if (data && data.hotels) {
+            setHotels(data.hotels);
+        }
+    }, [data]);
+
+    // const hotels = [
+    //     {
+    //         name: "Tower Street Villa",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Connought Place, Delhi",
+    //         price: "$100",
+    //         rating: 4.5,
+    //         reviews: 30,
+    //         description:
+    //             "Experience the epitome of hospitality at Tower Street Villa. Book your stay with us and create lasting memories in the heart of Delhi.",
+    //         type: "Villa",
+    //     },
+    //     {
+    //         name: "Sunset Beach Resort",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Malibu, California",
+    //         price: "$250",
+    //         rating: 4.8,
+    //         reviews: 120,
+    //         description:
+    //             "Unwind at our beachfront resort with breathtaking sunset views. Relax by the pool or take a stroll along the sandy shores.",
+    //         type: "Resort",
+    //     },
+    //     {
+    //         name: "Mountain View Lodge",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Aspen, Colorado",
+    //         price: "$180",
+    //         rating: 4.2,
+    //         reviews: 50,
+    //         description:
+    //             "Nestled in the Rockies, our lodge offers cozy rooms, stunning mountain vistas, and easy access to hiking trails.",
+    //         type: "Lodge",
+    //     },
+    //     {
+    //         name: "Urban Oasis Hotel",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "New York City, New York",
+    //         price: "$300",
+    //         rating: 4.7,
+    //         reviews: 90,
+    //         description:
+    //             "Discover tranquility in the heart of the city. Our rooftop garden and spa provide an oasis amidst the urban hustle.",
+    //         type: "Boutique Hotel",
+    //     },
+    //     {
+    //         name: "Historic Manor Inn",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Charleston, South Carolina",
+    //         price: "$220",
+    //         rating: 4.6,
+    //         reviews: 70,
+    //         description:
+    //             "Step back in time at our beautifully restored manor. Enjoy Southern hospitality and explore nearby historic sites.",
+    //         type: "Bed and Breakfast",
+    //     },
+    //     {
+    //         name: "Seaside Retreat",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Cape Cod, Massachusetts",
+    //         price: "$190",
+    //         rating: 4.4,
+    //         reviews: 40,
+    //         description:
+    //             "Wake up to ocean views and salty breezes. Our cozy cottages offer the perfect coastal escape.",
+    //         type: "Beachfront Cottage",
+    //     },
+    //     {
+    //         name: "Alpine Chalet",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Zermatt, Switzerland",
+    //         price: "$400",
+    //         rating: 4.9,
+    //         reviews: 150,
+    //         description:
+    //             "Experience Swiss luxury in our charming chalet. Ski-in, ski-out access and stunning Matterhorn views await.",
+    //         type: "Chalet",
+    //     },
+    //     {
+    //         name: "Tropical Paradise Resort",
+    //         image: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/404995121.jpg?k=26b957c5a2ba64cfe2119444b2e23074cc5b45ae5e915b03f55f24c9ad62da39&o=&hp=1",
+    //         address: "Bali, Indonesia",
+    //         price: "$280",
+    //         rating: 4.5,
+    //         reviews: 100,
+    //         description:
+    //             "Immerse yourself in lush gardens, infinity pools, and beachfront bliss. Indulge in island life at our resort.",
+    //         type: "Resort",
+    //     },
+    // ];
 
     return (
         <div className="bg-gray-100">
@@ -107,14 +121,23 @@ const List = () => {
                 <h2 className="text-2xl font-bold">
                     Search Results{" "}
                     <span className="text-xl font-normal text-gray-500">
-                        ({hotels.length} search results)
+                        ({data.hotels?.length} search results)
                     </span>
                     {/* TODO: Create a filter for search results */}
                 </h2>
             </div>
-            {hotels.map((hotel, index) => (
+            {loading ? (
+                "Loading"
+            ) : (
+                <>
+                    {hotels.map((hotel) => (
+                        <HotelListItem item={hotel} initialData={location.state} key={hotel._id} />
+                    ))}
+                </>
+            )}
+            {/* {hotels.map((hotel, index) => (
                 <HotelListItem key={index} {...hotel} />
-            ))}
+            ))} */}
             <EmailSubscription />
             <Footer />
         </div>

@@ -3,9 +3,7 @@ import StaySpotterLogo from "/images/StaySpotterLogo.png";
 import HotelSearch from "../hotelSearch/HotelSearch";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = (props) => {
-    const {includeSearch, initialData} = props;
-
+const Navbar = ({includeSearch, initialData}) => {
     const navigate = useNavigate();
     const handleLogo = () => {
         navigate('/');

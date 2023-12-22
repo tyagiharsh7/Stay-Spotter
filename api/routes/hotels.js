@@ -12,7 +12,7 @@ const router = express.Router();
 
 router
     .get('/', handleGetHotels)
-    .get('/:id', handleGetHotel)
+    .get('/find/:id', handleGetHotel)
     .post("/", verifyAdmin, handleCreateHotel)
     .put("/:id", verifyAdmin, handleUpdateHotel)
     .delete("/:id", verifyAdmin, handleDeleteHotel);

@@ -6,15 +6,20 @@ const handleGetHotels = async (req, res, next) => {
     const { featured, limit, min, max, ...othersParams } = req.query;
 
     try {
+        const query = {
+            ...othersParams,
+            cheapestPrice: {
+                $gt: min || 1,
+                $lt: max || 999,
+            },
+        };
+
+        if (featured) {
+            query.featured = JSON.parse(featured);
+        }
+
         const hotels = await hotelModel
-            .find({
-                ...othersParams,
-                featured: JSON.parse(featured),
-                cheapestPrice: {
-                    $gt: min || 1,
-                    $lt: max || 999,
-                },
-            })
+            .find(query)
             .limit(parseInt(limit) || 5);
 
         res.status(200).json({ hotels });
@@ -22,6 +27,7 @@ const handleGetHotels = async (req, res, next) => {
         next(error);
     }
 };
+
 
 
 const handleGetHotel = async (req, res, next) => {
