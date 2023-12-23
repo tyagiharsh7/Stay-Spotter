@@ -1,10 +1,9 @@
-import userModel from "../models/userModel.js";
-import createError from "../utils/createError.js";
+import * as userService from "../services/userService.js";
 
 const handleGetUsers = async (req, res, next) => {
     try {
-        const users = await userModel.find();
-        res.status(200).json({ users });
+        const result = await userService.getUsers();
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
@@ -14,11 +13,8 @@ const handleGetUser = async (req, res, next) => {
     const userId = req.params.id;
 
     try {
-        const user = await userModel.findById(userId);
-        if (!user) {
-            throw createError(404, "User not found.");
-        }
-        res.status(200).json({ user });
+        const result = await userService.getUser(userId);
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
@@ -26,19 +22,11 @@ const handleGetUser = async (req, res, next) => {
 
 const handleUpdateUser = async (req, res, next) => {
     const userId = req.params.id;
+    const updateData = req.body;
 
     try {
-        const updatedUser = await userModel.findByIdAndUpdate(
-            userId,
-            { $set: req.body },
-            { new: true }
-        );
-
-        if (!updatedUser) {
-            throw createError(400, "Bad Request: Missing required field.");
-        }
-
-        res.status(200).json({ success: true, data: updatedUser });
+        const result = await userService.updateUser(userId, updateData);
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }
@@ -48,19 +36,8 @@ const handleDeleteUser = async (req, res, next) => {
     const userId = req.params.id;
 
     try {
-        const deletedUser = await userModel.findByIdAndDelete(userId);
-
-        if (!deletedUser) {
-            throw createError(
-                400,
-                "Bad Request: Missing required parameter - ID."
-            );
-        }
-
-        res.status(200).json({
-            success: true,
-            message: "User deleted successfully",
-        });
+        const result = await userService.deleteUser(userId);
+        res.status(200).json(result);
     } catch (error) {
         next(error);
     }

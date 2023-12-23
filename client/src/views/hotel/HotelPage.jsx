@@ -224,7 +224,7 @@ const HotelPage = () => {
                                         <div className="mb-2 mt-7">
                                             <button
                                                 type="submit"
-                                                className="w-full py-2 px-4 border-2 border-green-500 text-green-500 rounded-full shadow-sm text-lg font-medium text-white hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                                className="w-full py-2 px-4 border-2 border-green-500 text-green-500 rounded-full shadow-sm text-lg font-medium hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                                             >
                                                 Book
                                             </button>
