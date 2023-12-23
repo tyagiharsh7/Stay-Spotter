@@ -1,22 +1,13 @@
-import roomModel from "../models/roomModel.js";
-import hotelModel from "../models/hotelModel.js";
+import * as roomRepository from "../repositories/roomRepository.js";
 import createError from "../utils/createError.js";
 
 const createRoom = async (hotelId, roomData) => {
     try {
-        const hotel = await hotelModel.findById(hotelId);
-        if (!hotel) {
-            throw createError(404, "Hotel not found.");
+        const result = await roomRepository.createRoom(hotelId, roomData);
+        if (!result.success) {
+            throw createError(404, result.message);
         }
-
-        const newRoom = new roomModel(roomData);
-        const room = await roomModel.create(newRoom);
-
-        await hotelModel.findByIdAndUpdate(hotelId, {
-            $push: { rooms: room._id },
-        });
-
-        return { hotelId, room };
+        return result;
     } catch (error) {
         throw error;
     }
@@ -24,20 +15,23 @@ const createRoom = async (hotelId, roomData) => {
 
 const getRooms = async () => {
     try {
-        const rooms = await roomModel.find();
-        return { rooms };
+        const result = await roomRepository.getRooms();
+        if (!result.success) {
+            throw createError(500, "Internal Server Error");
+        }
+        return result;
     } catch (error) {
         throw error;
     }
 };
 
-const getRoom = async (roomId) => {
+const getRoomById = async (roomId) => {
     try {
-        const room = await roomModel.findById(roomId);
-        if (!room) {
-            throw createError(404, "Room not found.");
+        const result = await roomRepository.getRoomById(roomId);
+        if (!result.success) {
+            throw createError(404, result.message);
         }
-        return { room };
+        return result;
     } catch (error) {
         throw error;
     }
@@ -45,17 +39,11 @@ const getRoom = async (roomId) => {
 
 const updateRoom = async (roomId, updateData) => {
     try {
-        const updatedRoom = await roomModel.findByIdAndUpdate(
-            roomId,
-            { $set: updateData },
-            { new: true }
-        );
-
-        if (!updatedRoom) {
-            throw createError(400, "Bad Request: Missing required field.");
+        const result = await roomRepository.updateRoom(roomId, updateData);
+        if (!result.success) {
+            throw createError(400, result.message);
         }
-
-        return { success: true, data: updatedRoom };
+        return result;
     } catch (error) {
         throw error;
     }
@@ -63,24 +51,14 @@ const updateRoom = async (roomId, updateData) => {
 
 const deleteRoom = async (roomId) => {
     try {
-        const deletedRoom = await roomModel.findByIdAndDelete(roomId);
-
-        if (!deletedRoom) {
-            throw createError(
-                400,
-                "Bad Request: Missing required parameter - ID."
-            );
+        const result = await roomRepository.deleteRoom(roomId);
+        if (!result.success) {
+            throw createError(400, result.message);
         }
-
-        await hotelModel.updateMany(
-            { rooms: deletedRoom._id },
-            { $pull: { rooms: deletedRoom._id } }
-        );
-
-        return { success: true, message: "Room deleted successfully" };
+        return result;
     } catch (error) {
         throw error;
     }
 };
 
-export { createRoom, getRooms, getRoom, updateRoom, deleteRoom };
+export { createRoom, getRooms, getRoomById, updateRoom, deleteRoom };

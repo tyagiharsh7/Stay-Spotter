@@ -1,24 +1,9 @@
-import hotelModel from "../models/hotelModel.js";
-import roomModel from "../models/roomModel.js";
 import createError from "../utils/createError.js";
+import * as hotelRepository from "../repositories/hotelRepository.js";
 
 const getHotels = async (params) => {
-    const { featured, limit, min, max, ...othersParams } = params;
-
     try {
-        const query = {
-            ...othersParams,
-            cheapestPrice: {
-                $gt: min || 1,
-                $lt: max || 999,
-            },
-        };
-
-        if (featured) {
-            query.featured = JSON.parse(featured);
-        }
-
-        const hotels = await hotelModel.find(query).limit(parseInt(limit) || 5);
+        const hotels = await hotelRepository.getHotels(params);
         return hotels;
     } catch (error) {
         throw error;
@@ -27,7 +12,7 @@ const getHotels = async (params) => {
 
 const getHotelById = async (hotelId) => {
     try {
-        const hotel = await hotelModel.findById(hotelId);
+        const hotel = await hotelRepository.getHotel(hotelId);
         if (!hotel) {
             throw createError(404, "Hotel not found.");
         }
@@ -39,7 +24,7 @@ const getHotelById = async (hotelId) => {
 
 const createHotel = async (hotelData) => {
     try {
-        const newHotel = await hotelModel.create(hotelData);
+        const newHotel = await hotelRepository.createHotel(hotelData);
         return newHotel;
     } catch (error) {
         throw error;
@@ -48,16 +33,10 @@ const createHotel = async (hotelData) => {
 
 const updateHotel = async (hotelId, updateData) => {
     try {
-        const updatedHotel = await hotelModel.findByIdAndUpdate(
-            hotelId,
-            { $set: updateData },
-            { new: true }
-        );
-
+        const updatedHotel = await hotelRepository.updateHotel(hotelId, updateData);
         if (!updatedHotel) {
             throw createError(400, "Bad Request: Missing required field.");
         }
-
         return updatedHotel;
     } catch (error) {
         throw error;
@@ -66,19 +45,8 @@ const updateHotel = async (hotelId, updateData) => {
 
 const deleteHotel = async (hotelId) => {
     try {
-        const deletedHotel = await hotelModel.findByIdAndDelete(hotelId);
-
-        if (!deletedHotel) {
-            throw createError(
-                400,
-                "Bad Request: Missing required parameter - ID."
-            );
-        }
-
-        // Delete corresponding rooms
-        await roomModel.deleteMany({ _id: { $in: deletedHotel.rooms } });
-
-        return { success: true, message: "Hotel deleted successfully" };
+        const deletedHotel = await hotelRepository.deleteHotel(hotelId);
+        return deletedHotel;
     } catch (error) {
         throw error;
     }

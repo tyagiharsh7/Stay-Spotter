@@ -1,10 +1,10 @@
-import userModel from "../models/userModel.js";
+import * as userRepository from "../repositories/userRepository.js";
 import createError from "../utils/createError.js";
 
 const getUsers = async () => {
     try {
-        const users = await userModel.find();
-        return { users };
+        const result = await userRepository.getUsers();
+        return result;
     } catch (error) {
         throw error;
     }
@@ -12,11 +12,11 @@ const getUsers = async () => {
 
 const getUser = async (userId) => {
     try {
-        const user = await userModel.findById(userId);
-        if (!user) {
-            throw createError(404, "User not found.");
+        const result = await userRepository.getUserById(userId);
+        if (!result.success) {
+            throw createError(404, result.message);
         }
-        return { user };
+        return result;
     } catch (error) {
         throw error;
     }
@@ -24,17 +24,11 @@ const getUser = async (userId) => {
 
 const updateUser = async (userId, updateData) => {
     try {
-        const updatedUser = await userModel.findByIdAndUpdate(
-            userId,
-            { $set: updateData },
-            { new: true }
-        );
-
-        if (!updatedUser) {
-            throw createError(400, "Bad Request: Missing required field.");
+        const result = await userRepository.updateUser(userId, updateData);
+        if (!result.success) {
+            throw createError(400, result.message);
         }
-
-        return { success: true, data: updatedUser };
+        return result;
     } catch (error) {
         throw error;
     }
@@ -42,16 +36,11 @@ const updateUser = async (userId, updateData) => {
 
 const deleteUser = async (userId) => {
     try {
-        const deletedUser = await userModel.findByIdAndDelete(userId);
-
-        if (!deletedUser) {
-            throw createError(
-                400,
-                "Bad Request: Missing required parameter - ID."
-            );
+        const result = await userRepository.deleteUser(userId);
+        if (!result.success) {
+            throw createError(400, result.message);
         }
-
-        return { success: true, message: "User deleted successfully" };
+        return result;
     } catch (error) {
         throw error;
     }

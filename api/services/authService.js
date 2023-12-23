@@ -1,4 +1,4 @@
-import userModel from "../models/userModel.js";
+import * as userRepository from "../repositories/userRepository.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import createError from "../utils/createError.js";
@@ -7,7 +7,7 @@ import config from "../config/index.js"
 const registerUser = async (userData) => {
     try {
         const hashedPassword = await hashPassword(userData.password);
-        const newUser = await userModel.create({
+        const newUser = await userRepository.createUser({
             username: userData.username,
             email: userData.email,
             password: hashedPassword,
@@ -21,7 +21,7 @@ const registerUser = async (userData) => {
 
 const loginUser = async (username, password) => {
     try {
-        const user = await findUserByUsername(username);
+        const user = await userRepository.findByUsername(username);
 
         if (!user) {
             throw createError(404, "User not found.");
@@ -45,10 +45,6 @@ const loginUser = async (username, password) => {
 const hashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
-};
-
-const findUserByUsername = async (username) => {
-    return userModel.findOne({ username });
 };
 
 const generateAuthToken = (user) => {
