@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import createError from "../utils/createError.js";
+import config from "../config/index.js"
 
 const registerUser = async (userData) => {
     try {
@@ -51,7 +52,7 @@ const findUserByUsername = async (username) => {
 };
 
 const generateAuthToken = (user) => {
-    return jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWTSECRET);
+    return jwt.sign({ id: user._id, isAdmin: user.isAdmin }, config.jwtSecret);
 };
 
 export { registerUser, loginUser };
