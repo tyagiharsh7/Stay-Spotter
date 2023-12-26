@@ -9,7 +9,6 @@ import useFetch from "../../hooks/useFetch";
 
 const List = () => {
     const location = useLocation();
-    console.log('location: ', location);
 
     const { data, loading, error, reFetch } = useFetch(
         `http://localhost:8800/api/hotel?city=${location.state.location}`

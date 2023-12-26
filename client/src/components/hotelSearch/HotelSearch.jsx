@@ -8,40 +8,31 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-const HotelSearch = ({ initialData }) => {
+import { useRecoilState, useRecoilValue } from 'recoil';
+import bookingDateState from "../../store/hotelSearch/atoms/bookingDateState.js"
+import locationState from "../../store/hotelSearch/atoms/locationState.js"
+import adultsState from "../../store/hotelSearch/atoms/adultsState.js"
+import childrenState from "../../store/hotelSearch/atoms/childrenState.js"
+import roomsState from "../../store/hotelSearch/atoms/roomsState.js"
+import { searchDataSelector } from '../../store/hotelSearch/selectors/searchDataSelector.js';
+
+const HotelSearch = () => {
     const [openBookingDateCalender, setOpenBookingDateCalender] =
         useState(false);
     const [openPeopleAndRoomSelection, setOpenPeopleAndRoomSelection] =
         useState(false);
-    const [bookingDate, setBookingDate] = useState(
-        initialData?.bookingDate || [
-            {
-                startDate: new Date(),
-                endDate: new Date(),
-                key: "selection",
-            },
-        ]
-    );
 
-    const [location, setLocation] = useState(initialData?.location || "");
-
-    const [adults, setAdults] = useState(initialData?.guests.adults || 1);
-    const [children, setChildren] = useState(initialData?.guests.children || 0);
-    const [rooms, setRooms] = useState(initialData?.guests.rooms || 1);
+    const [bookingDate, setBookingDate] = useRecoilState(bookingDateState);
+    const [location, setLocation] = useRecoilState(locationState);
+    const [adults, setAdults] = useRecoilState(adultsState);
+    const [children, setChildren] = useRecoilState(childrenState);
+    const [rooms, setRooms] = useRecoilState(roomsState);
+    
+    const searchData = useRecoilValue(searchDataSelector);
 
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        const searchData = {
-            location,
-            bookingDate,
-            guests: {
-                adults,
-                children,
-                rooms,
-            },
-        };
-
         navigate("/hotels", { state: searchData });
     };
 

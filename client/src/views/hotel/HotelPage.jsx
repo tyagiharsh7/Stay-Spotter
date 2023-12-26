@@ -16,7 +16,6 @@ const HotelPage = () => {
         `http://localhost:8800/api/hotel/find/${hotelId}`
     );
 
-    console.log("data", data);
     const shareHotel = () => {
         if (navigator.share) {
             navigator.share({

@@ -13,7 +13,7 @@ const Navbar = ({includeSearch, initialData}) => {
         <nav className={`bg-gray-100 p-2 ${includeSearch ? 'border-b-2' : ''}`}>
             <div className={`flex items-center justify-between mx-10`}>
                 <img src={StaySpotterLogo} alt="Logo" className="h-20 w-20" onClick={handleLogo}/>
-                {includeSearch ? <HotelSearch initialData={initialData}/>  : <ul className="flex space-x-4 text-xl">
+                {includeSearch ? <HotelSearch />  : <ul className="flex space-x-4 text-xl">
                     <li>
                         <a
                             href="#"
