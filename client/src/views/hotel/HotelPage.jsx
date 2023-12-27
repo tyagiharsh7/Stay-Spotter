@@ -32,7 +32,7 @@ const HotelPage = () => {
 
     return (
         <>
-            <Navbar includeSearch={true} initialData={location.state} />
+            <Navbar includeSearch={true} />
             <div className="bg-gray-100 p-4">
                 <div className="bg-white rounded-3xl shadow-md p-6">
                     {loading ? (

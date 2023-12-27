@@ -115,7 +115,7 @@ const List = () => {
 
     return (
         <div className="bg-gray-100">
-            <Navbar includeSearch={true} initialData={location.state} />
+            <Navbar includeSearch={true} />
             <div className="flex justify-between pl-10 pt-4 pb-0">
                 <h2 className="text-2xl font-bold">
                     Search Results{" "}
