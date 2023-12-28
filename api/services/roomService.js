@@ -61,4 +61,13 @@ const deleteRoom = async (roomId) => {
     }
 };
 
-export { createRoom, getRooms, getRoomById, updateRoom, deleteRoom };
+const updateRoomAvailability = async (roomId, roomNumberId, dates) => {
+    try {
+        const result = await roomRepository.updateRoomAvailability(roomId, roomNumberId, dates);
+        return result;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export { createRoom, getRooms, getRoomById, updateRoom, deleteRoom, updateRoomAvailability };

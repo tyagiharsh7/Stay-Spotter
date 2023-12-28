@@ -3,7 +3,7 @@ import Room from "../models/roomModel.js";
 
 const getHotels = async (params) => {
     const { featured, limit, min, max, ...othersParams } = params;
-    
+
     const query = {
         ...othersParams,
         cheapestPrice: {
@@ -49,10 +49,21 @@ const deleteHotel = async (hotelId) => {
     return { success: true, message: "Hotel deleted successfully" };
 };
 
+const getHotelRooms = async (hotelId) => {
+    const hotel = await Hotel.findById(hotelId);
+    const list = await Promise.all(
+        hotel.rooms.map((room) => {
+            return Room.findById(room);
+        })
+    );
+    return list;
+};
+
 export {
     getHotels,
     getHotel,
     createHotel,
     updateHotel,
     deleteHotel,
+    getHotelRooms,
 };

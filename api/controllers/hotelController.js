@@ -2,7 +2,7 @@ import * as hotelService from "../services/hotelService.js";
 
 const handleGetHotels = async (req, res, next) => {
     const { query } = req;
-    
+
     try {
         const hotels = await hotelService.getHotels(query);
         res.status(200).json({ hotels });
@@ -38,7 +38,10 @@ const handleUpdateHotel = async (req, res, next) => {
     const updateData = req.body;
 
     try {
-        const updatedHotel = await hotelService.updateHotel(hotelId, updateData);
+        const updatedHotel = await hotelService.updateHotel(
+            hotelId,
+            updateData
+        );
         res.status(200).json({ success: true, data: updatedHotel });
     } catch (error) {
         next(error);
@@ -56,10 +59,21 @@ const handleDeleteHotel = async (req, res, next) => {
     }
 };
 
+const handleGetHotelRooms = async (req, res, next) => {
+    const id = req.params.id;
+    try {
+        const rooms = await hotelService.getHotelRooms(id);
+        res.status(200).json(rooms);
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     handleGetHotels,
     handleGetHotel,
     handleCreateHotel,
     handleUpdateHotel,
     handleDeleteHotel,
+    handleGetHotelRooms
 };

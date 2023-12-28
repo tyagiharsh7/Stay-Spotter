@@ -114,7 +114,7 @@ const List = () => {
     // ];
 
     return (
-        <div className="bg-gray-100">
+        <div className="bg-gray-100 min-h-screen flex flex-col">
             <Navbar includeSearch={true} />
             <div className="flex justify-between pl-10 pt-4 pb-0">
                 <h2 className="text-2xl font-bold">
@@ -130,13 +130,19 @@ const List = () => {
             ) : (
                 <>
                     {hotels.map((hotel) => (
-                        <HotelListItem item={hotel} initialData={location.state} key={hotel._id} />
+                        <HotelListItem
+                            item={hotel}
+                            initialData={location.state}
+                            key={hotel._id}
+                        />
                     ))}
                 </>
             )}
             {/* {hotels.map((hotel, index) => (
                 <HotelListItem key={index} {...hotel} />
             ))} */}
+            <div className="flex-1"></div>{" "}
+            {/* Empty space to push EmailSubscription and Footer to the bottom */}
             <EmailSubscription />
             <Footer />
         </div>

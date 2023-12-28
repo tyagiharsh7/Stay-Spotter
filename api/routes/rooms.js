@@ -4,7 +4,8 @@ import {
     handleGetRooms,
     handleGetRoom,
     handleUpdateRoom,
-    handleDeleteRoom
+    handleDeleteRoom,
+    handleUpdateRoomAvailability
 } from "../controllers/roomController.js";
 import { verifyAdmin } from "../utils/authMiddleware.js";
 
@@ -15,6 +16,7 @@ router
     .get('/:id', handleGetRoom)
     .post("/:hotelId", verifyAdmin, handleCreateRoom)
     .put("/:id", verifyAdmin, handleUpdateRoom)
+    .put("/availability/:id", handleUpdateRoomAvailability)
     .delete("/:id", verifyAdmin, handleDeleteRoom);
 
 export default router;

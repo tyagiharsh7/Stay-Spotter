@@ -39,7 +39,10 @@ const updateRoom = async (roomId, updateData) => {
     );
 
     if (!updatedRoom) {
-        return { success: false, message: "Bad Request: Missing required field." };
+        return {
+            success: false,
+            message: "Bad Request: Missing required field.",
+        };
     }
 
     return { success: true, data: updatedRoom };
@@ -49,7 +52,10 @@ const deleteRoom = async (roomId) => {
     const deletedRoom = await Room.findByIdAndDelete(roomId);
 
     if (!deletedRoom) {
-        return { success: false, message: "Bad Request: Missing required parameter - ID." };
+        return {
+            success: false,
+            message: "Bad Request: Missing required parameter - ID.",
+        };
     }
 
     await Hotel.updateMany(
@@ -60,4 +66,24 @@ const deleteRoom = async (roomId) => {
     return { success: true, message: "Room deleted successfully" };
 };
 
-export { createRoom, getRooms, getRoomById, updateRoom, deleteRoom };
+const updateRoomAvailability = async (roomId, roomNumberId, dates) => {
+    await Room.updateOne(
+        { _id: roomId, "roomNumbers._id": roomNumberId },
+        {
+            $push: {
+                "roomNumbers.$.unavailableDates": dates,
+            },
+        }
+    );
+
+    return { success: true, message: "Room availability updated successfully" };
+};
+
+export {
+    createRoom,
+    getRooms,
+    getRoomById,
+    updateRoom,
+    deleteRoom,
+    updateRoomAvailability,
+};

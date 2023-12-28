@@ -33,7 +33,10 @@ const createHotel = async (hotelData) => {
 
 const updateHotel = async (hotelId, updateData) => {
     try {
-        const updatedHotel = await hotelRepository.updateHotel(hotelId, updateData);
+        const updatedHotel = await hotelRepository.updateHotel(
+            hotelId,
+            updateData
+        );
         if (!updatedHotel) {
             throw createError(400, "Bad Request: Missing required field.");
         }
@@ -52,10 +55,30 @@ const deleteHotel = async (hotelId) => {
     }
 };
 
+const getHotelRooms = async (id) => {
+    try {
+        const rooms = await hotelRepository.getHotelRooms(id);
+        return rooms;
+    } catch (error) {
+        throw error;
+    }
+};
+
+const updateRoomAvailability = async (roomId, dates) => {
+    try {
+        const updatedRoom = await hotelRepository.updateRoomAvailability(roomId, dates);
+        return updatedRoom;
+    } catch (err) {
+        throw err;
+    }
+};
+
 export {
     getHotels,
     getHotelById,
     createHotel,
     updateHotel,
     deleteHotel,
+    getHotelRooms,
+    updateRoomAvailability
 };

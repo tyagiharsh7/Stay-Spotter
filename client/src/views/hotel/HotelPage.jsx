@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import { FaShareAlt } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import EmailSubscription from "../../components/emailSubscription/EmailSubscription";
 import Footer from "../../components/footer/Footer";
 import { FaHeart } from "react-icons/fa";
 import useFetch from "../../hooks/useFetch";
+import { useRecoilValue } from "recoil";
+import { authState } from "../../store/auth/atoms/authState";
+import ReserveHotel from "../../components/reserveHotel/ReserveHotel";
 
 const HotelPage = () => {
     const location = useLocation();
     const hotelId = location.pathname.split("/")[2];
-    const [randowReviewCount, setRandomReviewCount] = useState(Math.floor(Math.random() * (200 - 50) + 50));
+    const [randowReviewCount, setRandomReviewCount] = useState(
+        Math.floor(Math.random() * (200 - 50) + 50)
+    );
     const [isFavorited, setIsFavorited] = useState(false);
     const { data, loading, error } = useFetch(
         `http://localhost:8800/api/hotel/find/${hotelId}`
     );
+    const { user } = useRecoilValue(authState);
+    const navigate = useNavigate();
+    const [openReservationComponent, setOpenReservationComponent] =
+        useState(false);
 
     const shareHotel = () => {
         if (navigator.share) {
@@ -30,14 +39,22 @@ const HotelPage = () => {
         setIsFavorited(!isFavorited);
     };
 
+    const bookHotel = () => {
+        if (user) {
+            setOpenReservationComponent(true);
+        } else {
+            navigate("/login");
+        }
+    };
+
     return (
-        <>
+        <div className="bg-gray-100 min-h-screen flex flex-col">
             <Navbar includeSearch={true} />
-            <div className="bg-gray-100 p-4">
-                <div className="bg-white rounded-3xl shadow-md p-6">
-                    {loading ? (
-                        "Loading"
-                    ) : (
+            {loading ? (
+                "Loading"
+            ) : data && data.hotel ? (
+                <div className="bg-gray-100 p-4">
+                    <div className="bg-white rounded-3xl shadow-md p-6">
                         <>
                             <div className="flex justify-between">
                                 <div>
@@ -61,7 +78,8 @@ const HotelPage = () => {
                                             )
                                         )}
                                         <span className="text-gray-600">
-                                            {data.hotel?.rating} ({randowReviewCount} reviews)
+                                            {data.hotel?.rating} (
+                                            {randowReviewCount} reviews)
                                         </span>
                                     </div>
                                 </div>
@@ -145,7 +163,8 @@ const HotelPage = () => {
                                         {data.hotel?.type}
                                     </p>
                                     <p className="text-gray-600 mb-2">
-                                        Price: ${data.hotel?.cheapestPrice} per night
+                                        Price: ${data.hotel?.cheapestPrice} per
+                                        night
                                     </p>
                                 </div>
                                 <div className="px-1">
@@ -162,7 +181,8 @@ const HotelPage = () => {
                                                     {Array.from(
                                                         {
                                                             length: Math.floor(
-                                                                data.hotel?.rating
+                                                                data.hotel
+                                                                    ?.rating
                                                             ),
                                                         },
                                                         (_, index) => (
@@ -180,7 +200,8 @@ const HotelPage = () => {
                                                     )}
                                                 </div>
                                                 <div className="text-gray-600">
-                                                    ({randowReviewCount} reviews)
+                                                    ({randowReviewCount}{" "}
+                                                    reviews)
                                                 </div>
                                             </div>
                                         </div>
@@ -224,6 +245,7 @@ const HotelPage = () => {
                                             <button
                                                 type="submit"
                                                 className="w-full py-2 px-4 border-2 border-green-500 text-green-500 rounded-full shadow-sm text-lg font-medium hover:bg-green-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                                                onClick={bookHotel}
                                             >
                                                 Book
                                             </button>
@@ -232,12 +254,24 @@ const HotelPage = () => {
                                 </div>
                             </div>{" "}
                         </>
-                    )}
+                    </div>
                 </div>
-            </div>
+            ) : (
+                <div className="flex justify-center align-middle">
+                    Error loading hotel. Please try again.
+                </div>
+            )}
+            <div className="flex-1"></div>{" "}
+            {/* Empty space to push EmailSubscription and Footer to the bottom */}
             <EmailSubscription />
             <Footer />
-        </>
+            {openReservationComponent && (
+                <ReserveHotel
+                    setOpen={setOpenReservationComponent}
+                    hotelId={hotelId}
+                />
+            )}
+        </div>
     );
 };
 

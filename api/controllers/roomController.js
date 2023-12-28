@@ -25,7 +25,7 @@ const handleGetRoom = async (req, res, next) => {
     const roomId = req.params.id;
 
     try {
-        const result = await roomService.getRoom(roomId);
+        const result = await roomService.getRoomById(roomId);
         res.status(200).json(result);
     } catch (error) {
         next(error);
@@ -55,10 +55,23 @@ const handleDeleteRoom = async (req, res, next) => {
     }
 };
 
+const handleUpdateRoomAvailability = async (req, res, next) => {
+    const roomId = req.params.id;
+    const { roomNumberId, dates } = req.body;
+
+    try {
+        const result = await roomService.updateRoomAvailability(roomId, roomNumberId, dates);
+        res.status(200).json(result);
+    } catch (err) {
+        next(err);
+    }
+};
+
 export {
     handleCreateRoom,
     handleGetRooms,
     handleGetRoom,
     handleUpdateRoom,
     handleDeleteRoom,
+    handleUpdateRoomAvailability
 };

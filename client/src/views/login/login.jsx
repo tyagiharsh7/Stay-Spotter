@@ -71,8 +71,8 @@ const Login = () => {
                         onChange={handleChange}
                         className="w-full px-3 py-2 mb-3 border border-gray-300 rounded focus:outline-none focus:border-green-500"
                     />
-                    <p> demo-username : demostay</p>
-                    <p> demo-password : 12345</p>
+                    <p> demo-username : demoacc</p>
+                    <p> demo-password : demoacc</p>
                     <button
                         disabled={authState.loading}
                         onClick={handleClick}
