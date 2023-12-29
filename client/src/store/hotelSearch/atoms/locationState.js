@@ -5,7 +5,7 @@ const { persistAtom } = recoilPersist();
 
 const locationState = atom({
     key: "locationState",
-    default: "",
+    default: "Paris",
     effects_UNSTABLE: [persistAtom],
 });
 

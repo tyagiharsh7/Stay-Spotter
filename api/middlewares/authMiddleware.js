@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import createError from "./createError.js";
+import createError from "../utils/createError.js";
 
 const verifyToken = async (req, res, next) => {
     try {
@@ -12,19 +12,30 @@ const verifyToken = async (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
-        return res.json(createError(403, "Access token is not valid or has expired"));
+        return res.json(
+            createError(403, "Access token is not valid or has expired")
+        );
     }
 };
 
 const authorizeUser = (req, res, next, isAdminRequired = false) => {
-    if (
-        req.user && ((isAdminRequired && req.user.isAdmin) ||
-        req.user.id === req.params.id)
-    ) {
-        return next();
+    const user = req.user;
+
+    if (!user) {
+        return res.json(createError(403, "Invalid user"));
     }
 
-    return res.json(createError(403, "User is not authorized to perform this action"));
+    if (isAdminRequired && !user.isAdmin) {
+        return res.json(createError(403, "Admin access required"));
+    }
+
+    if (!isAdminRequired && !(user.isAdmin || user.id === req.params.id)) {
+        return res.json(
+            createError(403, "User is not authorized to perform this action")
+        );
+    }
+
+    next();
 };
 
 const verifyUser = (req, res, next) => {
