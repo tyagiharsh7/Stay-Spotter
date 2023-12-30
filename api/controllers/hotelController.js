@@ -71,7 +71,6 @@ const handleGetHotelRooms = async (req, res, next) => {
 
 const handleGetHotelsWithAvailability = async (req, res) => {
     const { city, bookingDates } = req.query;
-    console.log('reqbody: ', req.query);
 
     try {
         const hotelsWithAvailability =
@@ -79,7 +78,6 @@ const handleGetHotelsWithAvailability = async (req, res) => {
                 city,
                 bookingDates
             );
-        console.log('hotelsWithAvailability: ', hotelsWithAvailability);
         res.status(200).json(hotelsWithAvailability);
     } catch (error) {
         console.error(error);

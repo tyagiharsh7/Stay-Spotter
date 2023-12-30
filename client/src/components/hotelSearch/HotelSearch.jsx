@@ -14,6 +14,7 @@ import locationState from "../../store/hotelSearch/atoms/locationState.js";
 import adultsState from "../../store/hotelSearch/atoms/adultsState.js";
 import childrenState from "../../store/hotelSearch/atoms/childrenState.js";
 import roomsState from "../../store/hotelSearch/atoms/roomsState.js";
+import { refetchSearchState } from "../../store/hotelSearch/atoms/refetchSearchState.js";
 
 const HotelSearch = () => {
     const [openBookingDateCalender, setOpenBookingDateCalender] =
@@ -26,11 +27,13 @@ const HotelSearch = () => {
     const [adults, setAdults] = useRecoilState(adultsState);
     const [children, setChildren] = useRecoilState(childrenState);
     const [rooms, setRooms] = useRecoilState(roomsState);
+    const [refetchSearch, setRefetchSearch] = useRecoilState(refetchSearchState);
 
     const navigate = useNavigate();
 
     const handleSearch = () => {
         navigate("/hotels");
+        setRefetchSearch(true);
     };
 
     const closeAllOptionsExcpetThis = (option) => {

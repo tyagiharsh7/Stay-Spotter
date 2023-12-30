@@ -5,6 +5,7 @@ import { useState } from "react";
 import bookingDateState from "../../store/hotelSearch/atoms/bookingDateState";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
+import getDatesInRange from "../../utils/getDatesInRange.js";
 
 const ReserveHotel = ({ setOpen, hotelId }) => {
     const [selectedRooms, setSelectedRooms] = useState([]);
@@ -13,22 +14,6 @@ const ReserveHotel = ({ setOpen, hotelId }) => {
         `${import.meta.env.VITE_BASE_API_URI}/hotel/find/room/${hotelId}`
     );
     const dates = useRecoilValue(bookingDateState);
-
-    const getDatesInRange = (startDate, endDate) => {
-        const start = new Date(startDate).setHours(0, 0, 0, 0);
-        const end = new Date(endDate).setHours(0, 0, 0, 0);
-
-        const date = new Date(start);
-
-        const dates = [];
-
-        while (date <= end) {
-            dates.push(new Date(date).setHours(0, 0, 0, 0));
-            date.setDate(date.getDate() + 1);
-        }
-
-        return dates;
-    };
 
     const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 

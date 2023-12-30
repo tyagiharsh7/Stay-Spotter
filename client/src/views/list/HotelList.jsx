@@ -5,38 +5,27 @@ import EmailSubscription from "../../components/emailSubscription/EmailSubscript
 import Footer from "../../components/footer/Footer";
 import { BsFilterSquare } from "react-icons/bs";
 import useFetch from "../../hooks/useFetch";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { searchDataSelector } from "../../store/hotelSearch/selectors/searchDataSelector";
 import bookingDateState from "../../store/hotelSearch/atoms/bookingDateState";
+import { refetchSearchState } from "../../store/hotelSearch/atoms/refetchSearchState";
+import getDatesInRange from "../../utils/getDatesInRange.js";
 
 const List = () => {
+    const [refetchSearch, setRefetchSearch] = useRecoilState(refetchSearchState);
+
     const searchData = useRecoilValue(searchDataSelector);
 
     const dates = useRecoilValue(bookingDateState);
 
-    const getDatesInRange = (startDate, endDate) => {
-        const start = new Date(startDate).setHours(0, 0, 0, 0);
-        const end = new Date(endDate).setHours(0, 0, 0, 0);
-
-        const date = new Date(start);
-
-        const dates = [];
-
-        while (date <= end) {
-            dates.push(new Date(date).setHours(0, 0, 0, 0));
-            date.setDate(date.getDate() + 1);
-        }
-
-        return dates;
-    };
     const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 
     const { data, loading, error, reFetch } = useFetch(
-        `${import.meta.env.VITE_BASE_API_URI}/hotel/availability`, 
+        `${import.meta.env.VITE_BASE_API_URI}/hotel/availability`,
         {
             params: {
                 city: searchData.location,
-            }
+            },
         }
     );
 
@@ -47,6 +36,15 @@ const List = () => {
             setHotels(data);
         }
     }, [data]);
+
+    useEffect(() => {
+        reFetch(`${import.meta.env.VITE_BASE_API_URI}/hotel/availability`, {
+            params: {
+                city: searchData.location,
+            },
+        });
+        setRefetchSearch(false);
+    }, [refetchSearch]);
 
     // const hotels = [
     //     {
