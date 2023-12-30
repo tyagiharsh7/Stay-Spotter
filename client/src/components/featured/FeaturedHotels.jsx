@@ -6,9 +6,7 @@ import useFetch from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 
 function FeaturedHotels() {
-    const { data, loading, error } = useFetch(
-        "http://localhost:8800/api/hotel?featured=true&limit=5"
-    );
+    const { data, loading, error } = useFetch(`${import.meta.env.VITE_BASE_API_URI}/hotel?featured=true&limit=5`);
 
     const navigate = useNavigate();
 

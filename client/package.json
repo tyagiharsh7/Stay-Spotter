@@ -16,7 +16,6 @@
     "@material-tailwind/react": "^2.1.7",
     "axios": "^1.6.2",
     "date-fns": "^2.30.0",
-    "dotenv": "^16.3.1",
     "fortawesome": "^0.0.1-security",
     "react": "^18.2.0",
     "react-date-range": "^1.4.0",

@@ -32,7 +32,7 @@ const List = () => {
     const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 
     const { data, loading, error, reFetch } = useFetch(
-        `http://localhost:8800/api/hotel/availability`, 
+        `${import.meta.env.VITE_BASE_API_URI}/hotel/availability`, 
         {
             params: {
                 city: searchData.location,

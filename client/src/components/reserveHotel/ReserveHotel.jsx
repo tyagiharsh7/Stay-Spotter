@@ -10,7 +10,7 @@ const ReserveHotel = ({ setOpen, hotelId }) => {
     const [selectedRooms, setSelectedRooms] = useState([]);
     const [loading, setLoading] = useState(false);
     const { data, error } = useFetch(
-        `http://localhost:8800/api/hotel/find/room/${hotelId}`
+        `${import.meta.env.VITE_BASE_API_URI}/hotel/find/room/${hotelId}`
     );
     const dates = useRecoilValue(bookingDateState);
 
@@ -63,7 +63,7 @@ const ReserveHotel = ({ setOpen, hotelId }) => {
 
                     if (roomId) {
                         const res = await axios.put(
-                            `http://localhost:8800/api/room/availability/${roomId}`,
+                            `${import.meta.env.VITE_BASE_API_URI}/room/availability/${roomId}`,
                             {
                                 roomId: roomId,
                                 roomNumberId: roomNumberId,
