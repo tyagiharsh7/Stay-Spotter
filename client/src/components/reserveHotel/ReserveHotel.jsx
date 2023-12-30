@@ -70,6 +70,8 @@ const ReserveHotel = ({ setOpen, hotelId }) => {
                                 dates: alldates,
                             }
                         );
+                        // console.log('allDates: ', alldates);
+                        // console.log('allDates types: ', typeof(alldates));
                         return res.data;
                     }
                 })

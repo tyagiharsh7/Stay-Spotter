@@ -5,7 +5,8 @@ import {
     handleCreateHotel,
     handleUpdateHotel,
     handleDeleteHotel,
-    handleGetHotelRooms
+    handleGetHotelRooms,
+    handleGetHotelsWithAvailability
 } from "../controllers/hotelController.js";
 import { verifyAdmin } from "../middlewares/authMiddleware.js";
 import { validateHotelCreation, validateHotelUpdation } from "../middlewares/validationMiddleware.js";
@@ -16,6 +17,7 @@ router
     .get('/', handleGetHotels)
     .get('/find/:id', handleGetHotel)
     .get('/find/room/:id', handleGetHotelRooms)
+    .get('/availability', handleGetHotelsWithAvailability)
     .post("/", validateHotelCreation, verifyAdmin, handleCreateHotel)
     .put("/:id", validateHotelUpdation, verifyAdmin, handleUpdateHotel)
     .delete("/:id", verifyAdmin, handleDeleteHotel);

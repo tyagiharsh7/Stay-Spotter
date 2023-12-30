@@ -59,6 +59,56 @@ const getHotelRooms = async (hotelId) => {
     return list;
 };
 
+const findHotelsWithAvailability = async (city, bookingDates = []) => {
+    // console.log("dates: ", bookingDates);
+    // console.log("typeof dates: ", typeof bookingDates);
+    // bookingDates.map((date) => {
+    //     console.log("typeof date: ", typeof date);
+    // });
+    // console.log("city: ", typeof city);
+
+    try {
+        return await Hotel.aggregate([
+            {
+                $match: {
+                    city: city,
+                },
+            },
+            // TODO: match booking dates
+            // {
+            //     $unwind: "$rooms",
+            // },
+            // {
+            //     $lookup: {
+            //         from: "rooms",
+            //         localField: "rooms",
+            //         foreignField: "_id",
+            //         as: "roomDetails",
+            //     },
+            // },
+            // {
+            //     $unwind: "$roomDetails",
+            // },
+            // {
+            //     $unwind: "$roomDetails.roomNumbers",
+            // },
+            // {
+            //     $match: {
+            //         "roomDetails.roomNumbers.unavailableDates": {
+            //             $not: {
+            //                 $elemMatch: {
+            //                     $in: bookingDates.map(date => new Date(parseInt(date)).toISOString().replace('Z', '+00:00'))
+            //                 }
+            //             }
+            //         }
+            //     },
+            // },
+        ]);
+    } catch (error) {
+        throw error;
+    }
+};
+
 export {
     getHotels,
     getHotel,
@@ -66,4 +116,5 @@ export {
     updateHotel,
     deleteHotel,
     getHotelRooms,
+    findHotelsWithAvailability,
 };

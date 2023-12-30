@@ -69,11 +69,30 @@ const handleGetHotelRooms = async (req, res, next) => {
     }
 };
 
+const handleGetHotelsWithAvailability = async (req, res) => {
+    const { city, bookingDates } = req.query;
+    console.log('reqbody: ', req.query);
+
+    try {
+        const hotelsWithAvailability =
+            await hotelService.getHotelsWithAvailability(
+                city,
+                bookingDates
+            );
+        console.log('hotelsWithAvailability: ', hotelsWithAvailability);
+        res.status(200).json(hotelsWithAvailability);
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+};
+
 export {
     handleGetHotels,
     handleGetHotel,
     handleCreateHotel,
     handleUpdateHotel,
     handleDeleteHotel,
-    handleGetHotelRooms
+    handleGetHotelRooms,
+    handleGetHotelsWithAvailability
 };

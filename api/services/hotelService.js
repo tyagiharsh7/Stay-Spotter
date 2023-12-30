@@ -66,10 +66,25 @@ const getHotelRooms = async (id) => {
 
 const updateRoomAvailability = async (roomId, dates) => {
     try {
-        const updatedRoom = await hotelRepository.updateRoomAvailability(roomId, dates);
+        const updatedRoom = await hotelRepository.updateRoomAvailability(
+            roomId,
+            dates
+        );
         return updatedRoom;
     } catch (err) {
         throw err;
+    }
+};
+
+const getHotelsWithAvailability = async (city, bookingDates) => {
+    try {
+        const hotels = await hotelRepository.findHotelsWithAvailability(
+            city,
+            bookingDates
+        );
+        return hotels;
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -80,5 +95,6 @@ export {
     updateHotel,
     deleteHotel,
     getHotelRooms,
-    updateRoomAvailability
+    updateRoomAvailability,
+    getHotelsWithAvailability
 };

@@ -8,13 +8,12 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRange } from "react-date-range";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from 'recoil';
-import bookingDateState from "../../store/hotelSearch/atoms/bookingDateState.js"
-import locationState from "../../store/hotelSearch/atoms/locationState.js"
-import adultsState from "../../store/hotelSearch/atoms/adultsState.js"
-import childrenState from "../../store/hotelSearch/atoms/childrenState.js"
-import roomsState from "../../store/hotelSearch/atoms/roomsState.js"
-import { searchDataSelector } from '../../store/hotelSearch/selectors/searchDataSelector.js';
+import { useRecoilState } from "recoil";
+import bookingDateState from "../../store/hotelSearch/atoms/bookingDateState.js";
+import locationState from "../../store/hotelSearch/atoms/locationState.js";
+import adultsState from "../../store/hotelSearch/atoms/adultsState.js";
+import childrenState from "../../store/hotelSearch/atoms/childrenState.js";
+import roomsState from "../../store/hotelSearch/atoms/roomsState.js";
 
 const HotelSearch = () => {
     const [openBookingDateCalender, setOpenBookingDateCalender] =
@@ -27,13 +26,11 @@ const HotelSearch = () => {
     const [adults, setAdults] = useRecoilState(adultsState);
     const [children, setChildren] = useRecoilState(childrenState);
     const [rooms, setRooms] = useRecoilState(roomsState);
-    
-    const searchData = useRecoilValue(searchDataSelector);
 
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        navigate("/hotels", { state: searchData });
+        navigate("/hotels");
     };
 
     const closeAllOptionsExcpetThis = (option) => {
@@ -97,7 +94,7 @@ const HotelSearch = () => {
                     </div>
                     <button
                         className="flex items-center justify-center w-full px-4 py-3 text-lg bg-green-500 text-white rounded-full shadow-sm hover:bg-green-700"
-                        onClick={ handleSearch}
+                        onClick={handleSearch}
                     >
                         <FaSearch className="mr-2" />
                         Search

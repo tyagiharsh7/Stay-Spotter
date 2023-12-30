@@ -1,24 +1,50 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
-import { useLocation } from "react-router-dom";
 import HotelListItem from "../../components/hotelListItem/HotelListItem";
 import EmailSubscription from "../../components/emailSubscription/EmailSubscription";
 import Footer from "../../components/footer/Footer";
 import { BsFilterSquare } from "react-icons/bs";
 import useFetch from "../../hooks/useFetch";
+import { useRecoilValue } from "recoil";
+import { searchDataSelector } from "../../store/hotelSearch/selectors/searchDataSelector";
+import bookingDateState from "../../store/hotelSearch/atoms/bookingDateState";
 
 const List = () => {
-    const location = useLocation();
+    const searchData = useRecoilValue(searchDataSelector);
+
+    const dates = useRecoilValue(bookingDateState);
+
+    const getDatesInRange = (startDate, endDate) => {
+        const start = new Date(startDate).setHours(0, 0, 0, 0);
+        const end = new Date(endDate).setHours(0, 0, 0, 0);
+
+        const date = new Date(start);
+
+        const dates = [];
+
+        while (date <= end) {
+            dates.push(new Date(date).setHours(0, 0, 0, 0));
+            date.setDate(date.getDate() + 1);
+        }
+
+        return dates;
+    };
+    const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 
     const { data, loading, error, reFetch } = useFetch(
-        `http://localhost:8800/api/hotel?city=${location.state.location}`
+        `http://localhost:8800/api/hotel/availability`, 
+        {
+            params: {
+                city: searchData.location,
+            }
+        }
     );
 
     const [hotels, setHotels] = useState([]);
 
     useEffect(() => {
-        if (data && data.hotels) {
-            setHotels(data.hotels);
+        if (data && data) {
+            setHotels(data);
         }
     }, [data]);
 
@@ -120,7 +146,7 @@ const List = () => {
                 <h2 className="text-2xl font-bold">
                     Search Results{" "}
                     <span className="text-xl font-normal text-gray-500">
-                        ({data.hotels?.length} search results)
+                        ({data?.length} search results)
                     </span>
                     {/* TODO: Create a filter for search results */}
                 </h2>
@@ -129,12 +155,8 @@ const List = () => {
                 "Loading"
             ) : (
                 <>
-                    {hotels.map((hotel) => (
-                        <HotelListItem
-                            item={hotel}
-                            initialData={location.state}
-                            key={hotel._id}
-                        />
+                    {data.map((hotel) => (
+                        <HotelListItem item={hotel} key={hotel._id} />
                     ))}
                 </>
             )}

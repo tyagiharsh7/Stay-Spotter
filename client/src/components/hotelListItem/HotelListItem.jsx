@@ -3,40 +3,14 @@ import { FaHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 
 const HotelListItem = (props) => {
-    const {item, initialData} = props;
+    const {item} = props;
     const [isFavorited, setIsFavorited] = useState(false);
     const [randowReviewCount, setRandomReviewCount] = useState(Math.floor(Math.random() * (200 - 50) + 50));
-
-    const [bookingDate, setBookingDate] = useState(
-        initialData?.bookingDate || [
-            {
-                startDate: new Date(),
-                endDate: new Date(),
-                key: "selection",
-            },
-        ]
-    );
-
-    const [location, setLocation] = useState(initialData?.location || "");
-
-    const [adults, setAdults] = useState(initialData?.guests.adults || 1);
-    const [children, setChildren] = useState(initialData?.guests.children || 0);
-    const [rooms, setRooms] = useState(initialData?.guests.rooms || 1);
 
     const navigate = useNavigate();
 
     const handleSearch = () => {
-        const searchData = {
-            location,
-            bookingDate,
-            guests: {
-                adults,
-                children,
-                rooms,
-            },
-        };
-
-        navigate(`/hotel/${item._id}`, { state: searchData });
+        navigate(`/hotel/${item._id}`);
     };
 
     const toggleFavorite = () => {
