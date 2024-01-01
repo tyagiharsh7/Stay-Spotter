@@ -71,7 +71,7 @@ const findHotelsWithAvailability = async (city, bookingDates = []) => {
         return await Hotel.aggregate([
             {
                 $match: {
-                    city: { $regex: new RegExp(city, 'i') },
+                    city: { $regex: new RegExp(`^${city}$`, 'i') },
                 },
             },
             // TODO: match booking dates

@@ -20,11 +20,13 @@ const List = () => {
 
     const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 
+    const defaultCity = "Paris"
+
     const { data, loading, error, reFetch } = useFetch(
         `${import.meta.env.VITE_BASE_API_URI}/hotel/availability`,
         {
             params: {
-                city: searchData.location,
+                city: searchData.location || defaultCity,
             },
         }
     );
