@@ -44,7 +44,7 @@ const createUser = async (userData) => {
 };
 
 const findByUsername = async (username) => {
-    return User.findOne({ username });
+    return User.findOne({ username: { $regex: new RegExp(username, 'i') } });
 };
 
 export { getUsers, getUserById, updateUser, deleteUser, createUser, findByUsername };
