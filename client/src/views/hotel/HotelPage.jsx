@@ -18,7 +18,7 @@ const HotelPage = () => {
     );
     const [isFavorited, setIsFavorited] = useState(false);
     const { data, loading, error } = useFetch(
-        `${import.meta.env.VITE_BASE_API_URI}/hotel/find/${hotelId}`
+        `${import.meta.env.VITE_BASE_API_URI}/api/hotel/find/${hotelId}`
     );
     const { user } = useRecoilValue(authState);
     const navigate = useNavigate();

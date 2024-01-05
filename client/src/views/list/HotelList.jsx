@@ -23,7 +23,7 @@ const List = () => {
     const defaultCity = "Paris"
 
     const { data, loading, error, reFetch } = useFetch(
-        `${import.meta.env.VITE_BASE_API_URI}/hotel/availability`,
+        `${import.meta.env.VITE_BASE_API_URI}/api/hotel/availability`,
         {
             params: {
                 city: searchData.location || defaultCity,
@@ -40,7 +40,7 @@ const List = () => {
     }, [data]);
 
     useEffect(() => {
-        reFetch(`${import.meta.env.VITE_BASE_API_URI}/hotel/availability`, {
+        reFetch(`${import.meta.env.VITE_BASE_API_URI}/api/hotel/availability`, {
             params: {
                 city: searchData.location,
             },

@@ -24,7 +24,7 @@ const Login = () => {
         setAuthState((prev) => ({ ...prev, loading: true, error: null }));
         try {
             const res = await axios.post(
-                `${import.meta.env.VITE_BASE_API_URI}/auth/login`,
+                `${import.meta.env.VITE_BASE_API_URI}/api/auth/login`,
                 credentials
             );
             setAuthState({
