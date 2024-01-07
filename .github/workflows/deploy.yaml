@@ -42,4 +42,4 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_INSTANCE_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
-        run: ssh ec2-user@${{ secrets.EC2_INSTANCE_IP }} 'bash -s' < deploy.sh
+        run: ssh ubuntu@${{ secrets.EC2_INSTANCE_IP }} "sudo bash ~/deploy.sh"
