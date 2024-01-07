@@ -19,13 +19,13 @@ jobs:
 
       - name: Build and push Docker images
         run: |
-          docker build -t stay-spotter-api ./api
-          docker build -t stay-spotter-client ./client
-
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
-          docker push stay-spotter-api
-          docker push stay-spotter-client
+          docker build -t tyagiharsh7/stay-spotter-api:latest ./api
+          docker build -t tyagiharsh7/stay-spotter-client:latest ./client
+
+          docker push tyagiharsh7/stay-spotter-api:latest
+          docker push tyagiharsh7/stay-spotter-client:latest
 
   deploy:
     runs-on: ubuntu-latest
