@@ -22,7 +22,7 @@ jobs:
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
           docker build -t tyagiharsh7/stay-spotter-api:latest ./api
-          docker build --build-arg VITE_BASE_API_URI=${{secrets.VITE_BASE_API_URI}} -t tyagiharsh7/stay-spotter-client:latest ./client
+          docker build --build-arg VITE_BASE_API_URI=${{ secrets.VITE_BASE_API_URI }} -t tyagiharsh7/stay-spotter-client:latest ./client
 
           docker push tyagiharsh7/stay-spotter-api:latest
           docker push tyagiharsh7/stay-spotter-client:latest
