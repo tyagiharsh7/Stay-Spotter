@@ -23,30 +23,32 @@ jobs:
           api_changes=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^api/' || true)
           client_changes=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^client/' || true)
 
-          if [[ -n "$api_changes" ]] || [[ -n "$client_changes" ]]
-            if [[ -n "$api_changes" ]]; then
-              echo "::set-output name=changed_dir::api"
-            if [[ -n "$client_changes" ]]; then
-              echo "::set-output name=changed_dir::client"
+          if [[ -n "$api_changes" ]]; then
+            echo "::set-output name=changed_dir::api"
+          elif [[ -n "$client_changes" ]]; then
+            echo "::set-output name=changed_dir::client"
           else
             echo "No changes in 'api/' or 'client/' directory."
           fi
 
       - name: Build and push Docker images
         run: |
-          if [[ "${{ steps.check_changes.outputs.changed_dir }}" == "api/" ]] || [[ "${{ steps.check_changes.outputs.changed_dir }}" == "client/" ]]
-            if [[ "${{ steps.check_changes.outputs.changed_dir }}" == "api/" ]]; then
+          if [[ "${{ steps.check_changes.outputs.changed_dir }}" == "api" || "${{ steps.check_changes.outputs.changed_dir }}" == "client" ]]; then
+            if [[ "${{ steps.check_changes.outputs.changed_dir }}" == "api" ]]; then
               docker build -t stay-spotter-api ./api
               echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
               docker push stay-spotter-api
-            if [[ "${{ steps.check_changes.outputs.changed_dir }}" == "client/" ]]; then
+            fi
+
+            if [[ "${{ steps.check_changes.outputs.changed_dir }}" == "client" ]]; then
               docker build -t stay-spotter-client ./client
               echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
               docker push stay-spotter-client
+            fi
           else
             echo "No changes in 'api/' or 'client/' directory."
           fi
-  
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push-images
