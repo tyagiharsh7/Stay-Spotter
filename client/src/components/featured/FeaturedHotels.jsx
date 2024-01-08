@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function FeaturedHotels() {
     const { data, loading, error } = useFetch(`${import.meta.env.VITE_BASE_API_URI}/api/hotel?featured=true&limit=5`);
-    console.log("VITE_BASE_API_URI: ", import.meta.env.VITE_BASE_API_URI);
+    console.log("VITE_BASE_API_URI:  ", import.meta.env.VITE_BASE_API_URI);
     const navigate = useNavigate();
 
     const [currentIndex, setCurrentIndex] = useState(0);
