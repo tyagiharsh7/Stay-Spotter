@@ -88,11 +88,12 @@ If you'd like to contribute, please follow these steps:
 
 ## Design Credits
 
-A big shoutout to this dribble designer for the fantastic design elements I used in Stay Spotter. Explore more of their work.
+A big shoutout to this Dribbble designer for their fantastic design elements that I used in Stay Spotter.
 
-https://dribbble.com/shots/21921721-Lunora-Hotel-Booking-Landing-Page
+- [Lunora Hotel Booking Landing Page](https://dribbble.com/shots/21921721-Lunora-Hotel-Booking-Landing-Page{:target="_blank"})
+- [Lunora Detail Page Room](https://dribbble.com/shots/21806496-Lunora-Detail-Page-Room{:target="_blank"})
 
-https://dribbble.com/shots/21806496-Lunora-Detail-Page-Room
+Do explore more of their work.
 
 ## License
 
