@@ -11,15 +11,14 @@ jobs:
 
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Build and push Docker images
         run: |
-          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          echo secrets.DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           
           docker build -t tyagiharsh7/stay-spotter-api:latest ./api
           docker build --build-arg VITE_BASE_API_URI=${{ secrets.VITE_BASE_API_URI }} -t tyagiharsh7/stay-spotter-client:latest ./client
